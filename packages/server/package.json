@@ -6,6 +6,7 @@
   "author": "",
   "license": "MIT",
   "scripts": {
+    "dev": "node index",
     "start": "node index"
   },
   "dependencies": {

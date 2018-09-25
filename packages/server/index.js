@@ -3,6 +3,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 
 const config = {
+  env: 'development',
   host: 'localhost',
   port: 8080
 }
@@ -15,10 +16,16 @@ app.get('/hello', function (req, res) {
   res.send('Hello world')
 })
 
-// Serve static web
-const webStaticPath = path.join(path.dirname(require.resolve('@api-web-monorepo-boilerplate/web/package.json')), 'dist')
-console.log('Resolved path to web dist:' + webStaticPath)
-app.use(express.static(webStaticPath))
+if (config.env === 'development') {
+  // Serve webpack dev middleware
+  const webDevUtil = require('@api-web-monorepo-boilerplate/web/webpack-dev-utils.js')
+  webDevUtil.attachToExpress(app)
+} else {
+  // Serve web dist
+  const webStaticPath = path.join(path.dirname(require.resolve('@api-web-monorepo-boilerplate/web/package.json')), 'dist')
+  console.log('Resolved path to web dist:' + webStaticPath)
+  app.use(express.static(webStaticPath))
+}
 
 app.listen(config.port, config.host, function onStart (err) {
   if (err) return console.error(err)
