@@ -2,7 +2,9 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "server:start": "npm start --prefix ./packages/server"
+    "server:start": "npm start --prefix ./packages/server",
+    "web:dev": "npm run dev --prefix ./packages/web",
+    "web:build": "npm run build --prefix ./packages/web"
   },
   "devDependencies": {
     "lerna": "^3.4.0"
