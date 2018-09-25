@@ -1,20 +1,29 @@
 const path = require('path')
+
+// ConfigJS
+process.env['NODE_CONFIG_DIR'] = './config/'
+const config = require('config')
+
+// Express
 const express = require('express')
 const bodyParser = require('body-parser')
-
-const config = {
-  env: 'development',
-  host: 'localhost',
-  port: 8080
-}
+const cors = require('cors')
 
 const app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
+app.use(cors())
 
-app.get('/hello', function (req, res) {
-  res.send('Hello world')
-})
+const passportUtils = require('./passport-utils')
+passportUtils.attachToExpress(app)
+
+// Rest
+app.use('/auth', require('./api/auth'))
+app.use('/account', passportUtils.BearerAuthenticated, require('./api/account'))
+
+// Web: handle refresh page action
+const history = require('connect-history-api-fallback')
+app.use(history())
 
 if (config.env === 'development') {
   // Serve webpack dev middleware

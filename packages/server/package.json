@@ -6,12 +6,20 @@
   "author": "",
   "license": "MIT",
   "scripts": {
-    "dev": "node index",
+    "dev": "export NODE_ENV=development && node index",
     "start": "node index"
   },
   "dependencies": {
     "@api-web-monorepo-boilerplate/web": "^1.0.0",
     "body-parser": "^1.17.1",
-    "express": "^4.15.2"
+    "config": "^2.0.1",
+    "connect-history-api-fallback": "^1.5.0",
+    "cors": "^2.8.4",
+    "express": "^4.15.2",
+    "jsonwebtoken": "^8.3.0",
+    "lodash": "^4.17.11",
+    "passport": "^0.4.0",
+    "passport-http-bearer": "^1.0.1",
+    "passport-local": "^1.0.0"
   }
 }
