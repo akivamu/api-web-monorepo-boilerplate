@@ -1,5 +1,6 @@
 const state = {
-  authInfo: null
+  authInfo: null,
+  account: null
 }
 
 // getters
@@ -21,14 +22,19 @@ const mutations = {
     state.authInfo.token_type = newAccessToken.token_type
     state.authInfo.expires_in = newAccessToken.expires_in
     localStorage.setItem('authInfo', JSON.stringify(state.authInfo))
-  }
+  },
+  setAccount (state, account) {
+    state.account = account
+    localStorage.setItem('account', JSON.stringify(account))
+  },
 }
 
 // Init store before use
 try {
   state.authInfo = JSON.parse(localStorage.getItem('authInfo'))
+  state.account = JSON.parse(localStorage.getItem('account'))
 } catch (e) {
-  console.log('Invalid or empty authInfo')
+  console.log('Invalid or empty authInfo or account')
 }
 
 export default {

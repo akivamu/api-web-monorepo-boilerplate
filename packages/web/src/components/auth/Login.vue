@@ -37,6 +37,7 @@ export default {
   methods: {
     login: function () {
       api.auth.login(this.username, this.password).then(() => {
+        api.account.getMe()
         this.$router.push('/member')
       }).catch((error) => {
         this.error = error.message

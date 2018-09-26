@@ -72,6 +72,7 @@ const AuthApi = {
     }
 
     store.commit('auth/setAuthInfo', null)
+    store.commit('auth/setAccount', null)
     setupAxiosAuth()
 
     router.push(toLogInPage ? '/login' : '/')
