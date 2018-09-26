@@ -3,6 +3,7 @@
 const router = require('express').Router()
 const db = require('../db')
 const _ = require('lodash')
+const passportUtils = require('../passport-utils')
 
 function removeSensitiveAccountInfo (accounts) {
   if (accounts instanceof Array) {
@@ -25,7 +26,7 @@ router.get('/', function (req, res) {
     })
 })
 
-router.get('/all', function (req, res) {
+router.get('/all', passportUtils.BearerAuthorized(['ADMIN']), function (req, res) {
   db.accounts.findAll()
     .then(accounts => {
       res.json({

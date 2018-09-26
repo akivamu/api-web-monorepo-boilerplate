@@ -1,3 +1,4 @@
+const _ = require('lodash')
 const passport = require('passport')
 const db = require('./db')
 
@@ -55,9 +56,24 @@ function bearerAuthenticated (req, res, next) {
   })(req, res, next)
 }
 
+function bearerAuthorized (roles) {
+  return function (req, res, next) {
+    if (_.intersection(req.user.roles, roles).length === 0) {
+      res.status(403).json({
+        error: {
+          message: 'Access denied'
+        }
+      })
+    } else {
+      next()
+    }
+  }
+}
+
 module.exports = {
   attachToExpress: function (expressApp) {
     expressApp.use(passport.initialize())
   },
-  BearerAuthenticated: bearerAuthenticated
+  BearerAuthenticated: bearerAuthenticated,
+  BearerAuthorized: bearerAuthorized
 }
