@@ -5,7 +5,8 @@ const state = {
 
 // getters
 const getters = {
-  isLoggedIn: state => { return !!state.authInfo }
+  isLoggedIn: state => { return !!state.authInfo },
+  roles: state => { return state.account.roles }
 }
 
 // actions
