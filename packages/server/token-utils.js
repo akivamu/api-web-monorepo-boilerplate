@@ -3,7 +3,7 @@ const config = require('config').jwt
 const jwt = require('jsonwebtoken')
 const db = require('./db')
 
-const tokenPayloadFields = ['id']
+const tokenPayloadFields = ['id', 'roles']
 
 function buildTokenPayload (data) {
   const payload = {}
@@ -30,18 +30,20 @@ function generateRefreshToken (payload) {
 
 module.exports = {
   generateTokens (userId) {
-    const payload = buildTokenPayload({id: userId})
-    const accessToken = generateAccessToken(payload)
-    const refreshToken = generateRefreshToken(payload)
+    return db.accounts.findById(userId).then(account => {
+      const payload = buildTokenPayload(account)
+      const accessToken = generateAccessToken(payload)
+      const refreshToken = generateRefreshToken(payload)
 
-    db.tokens.saveRefreshToken(userId, refreshToken)
+      db.tokens.saveRefreshToken(account.id, refreshToken)
 
-    return {
-      access_token: accessToken.token,
-      token_type: 'bearer',
-      expires_in: accessToken.expiresIn,
-      refresh_token: refreshToken
-    }
+      return {
+        access_token: accessToken.token,
+        token_type: 'bearer',
+        expires_in: accessToken.expiresIn,
+        refresh_token: refreshToken
+      }
+    })
   },
   verifyAccessToken: function (accessToken) {
     return new Promise((resolve, reject) => {

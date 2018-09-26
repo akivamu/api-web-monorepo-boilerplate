@@ -5,10 +5,10 @@ const passport = require('passport')
 const tokenUtils = require('../token-utils')
 
 router.post('/login', passport.authenticate('local', {session: false}), function (req, res) {
-  const tokenData = tokenUtils.generateTokens(req.user.id)
-
-  res.json({
-    data: tokenData
+  tokenUtils.generateTokens(req.user.id).then(tokenData => {
+    res.json({
+      data: tokenData
+    })
   })
 })
 

@@ -3,14 +3,28 @@ const accounts = [
   {
     id: 1,
     username: 'admin',
-    password: 'admin'
+    password: 'admin',
+    roles: [
+      'ADMIN',
+      'MEMBER'
+    ]
   },
   {
     id: 2,
     username: 'user',
-    password: 'user'
+    password: 'user',
+    roles: [
+      'MEMBER'
+    ]
   }
 ]
+
+module.exports.findById = (id) => {
+  for (let i = 0; i < accounts.length; i++) {
+    if (accounts[i].id === id) return Promise.resolve(accounts[i])
+  }
+  return Promise.resolve(null)
+}
 
 module.exports.findByUsername = (username) => {
   for (let i = 0; i < accounts.length; i++) {
