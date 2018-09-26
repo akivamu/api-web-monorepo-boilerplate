@@ -17,6 +17,15 @@ function removeSensitiveAccountInfo (accounts) {
 }
 
 router.get('/', function (req, res) {
+  db.accounts.findById(req.user.id)
+    .then(myAccount => {
+      res.json({
+        data: removeSensitiveAccountInfo(myAccount)
+      })
+    })
+})
+
+router.get('/all', function (req, res) {
   db.accounts.findAll()
     .then(accounts => {
       res.json({

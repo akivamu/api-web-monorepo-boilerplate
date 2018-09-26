@@ -2,7 +2,9 @@
   <div class="home">
     <h1>You are logged in.</h1>
     <button class="btn btn-primary" v-on:click="logout">Logout</button>
-    <p>Currently has {{accounts.length}} accounts in the system</p>
+    <p>Id: {{account.id}}</p>
+    <p>Username: {{account.username}}</p>
+    <p>Roles: {{account.roles}}</p>
   </div>
 </template>
 
@@ -12,12 +14,12 @@ import api from '../../services/api'
 export default {
   data () {
     return {
-      accounts: []
+      account: {}
     }
   },
   mounted: function () {
-    api.account.getAll().then((accounts) => {
-      this.accounts = accounts
+    api.account.getMe().then((account) => {
+      this.account = account
     })
   },
   methods: {
