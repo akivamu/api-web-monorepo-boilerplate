@@ -19,20 +19,24 @@ const accounts = [
   }
 ]
 
+function clone (obj) {
+  return JSON.parse(JSON.stringify(obj))
+}
+
 module.exports.findById = (id) => {
   for (let i = 0; i < accounts.length; i++) {
-    if (accounts[i].id === id) return Promise.resolve(accounts[i])
+    if (accounts[i].id === id) return Promise.resolve(clone(accounts[i]))
   }
   return Promise.resolve(null)
 }
 
 module.exports.findByUsername = (username) => {
   for (let i = 0; i < accounts.length; i++) {
-    if (accounts[i].username === username) return Promise.resolve(accounts[i])
+    if (accounts[i].username === username) return Promise.resolve(clone(accounts[i]))
   }
   return Promise.resolve(null)
 }
 
 module.exports.findAll = () => {
-  return Promise.resolve(accounts)
+  return Promise.resolve(clone(accounts))
 }
